@@ -4,7 +4,7 @@
 #include <math.h>
 
 #ifndef CACHELINE_SIZE
-#define CACHELINE_SIZE 655360 //4096/655360 max speed
+#define CACHELINE_SIZE 64 //4096/655360 max speed
 #endif
 
 #ifndef N
@@ -55,43 +55,17 @@ void dgemm_def(double a[N][N], double b[N][N], double c[N][N])
     }
 }
 
-void dgemm_transpose(double a[N][N], double b[N][N], double c[N][N])
-{
-    double *tmp = malloc(sizeof(*tmp) * N * N);
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            tmp[i * N + j] = b[j][i];
-        }
-    }
-
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            for (int k = 0; k < N; k++) {
-                c[i][j] += a[i][k] * tmp[j * N + k];
-            } /* tmp[] stride-1 read */
-        }
-    }
-    free(tmp);
-}
-
 void dgemm_interchange(double a[N][N], double b[N][N], double c[N][N])
 {
-    double *tmp = malloc(sizeof(*tmp) * N * N);
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            tmp[i * N + j] = b[j][i];
-        }
-    }
-
+   /* TODO */
     for (int i = 0; i < N; i++) {
         for (int k = 0; k < N; k++) {
             for (int j = 0; j < N; j++) {
-                c[i][j] += a[i][k] * tmp[j * N + k];
-            } /* tmp[] stride-1 read */
+                c[i][j] += a[i][k] * b[k][j];
+            }
         }
     }
-    free(tmp);
-   /* TODO */
+
 }
 
 void dgemm_block(double a[N][N], double b[N][N], double c[N][N])
@@ -101,7 +75,7 @@ void dgemm_block(double a[N][N], double b[N][N], double c[N][N])
             for (int jj = 0; jj < N; jj += BS) {
                 for (int i = ii; i < min(N, ii + BS); i++) {
                     for (int k = kk; k < min(N, kk + BS); k++){
-                        for (int j = jj; j< min(N, jj + BS); j++)
+                        for (int j = jj; j < min(N, jj + BS); j++)
                              c[i][j] += a[i][k] * b[k][j];
                     }
                 }
