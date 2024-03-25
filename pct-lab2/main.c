@@ -30,7 +30,7 @@ void matrix_vector_product_omp(double *a, double *b, double *c, int m, int n, in
     }
 }
 
-void run_serial(int n, int m)
+double run_serial(int n, int m)
 {
     double *a, *b, *c;
 
@@ -53,9 +53,10 @@ void run_serial(int n, int m)
     free(a);
     free(b);
     free(c);
+    return t;
 }
 
-void run_parallel(int n, int m, int flag)
+double run_parallel(int n, int m, int flag)
 {
     double *a, *b, *c;
 
@@ -89,6 +90,7 @@ void run_parallel(int n, int m, int flag)
     free(a);
     free(b);
     free(c);
+    return t;
 }
 
 
@@ -102,8 +104,10 @@ int main(int argc, char **argv) {
     printf("Matrix-vector product (c[m] = a[m, n] * b[n]; m = %d, n = %d)\n", m, n);
     printf("Memory used: %" PRIu64 " MiB\n", ((m * n + m + n) * sizeof(double)) >> 20);
 
-    run_serial(n, m);
-    run_parallel(n, m, flag);
+    double serial = run_serial(n, m);
+    double parallel = run_parallel(n, m, flag);
+
+    printf("Speedup: %f", serial/parallel);
 
     return 0;
 }
