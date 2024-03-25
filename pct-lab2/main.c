@@ -1,13 +1,7 @@
 #include <stdio.h>
 #include <omp.h>
 #include <stdlib.h>
-#include <time.h>
 #include <inttypes.h>
-
-double wtime ()
-{
-    return (double) clock() / (double) CLOCKS_PER_SEC;
-}
 
 void matrix_vector_product(double *a, double *b, double *c, int m, int n)
 {
@@ -18,9 +12,9 @@ void matrix_vector_product(double *a, double *b, double *c, int m, int n)
     }
 }
 
-void matrix_vector_product_omp(double *a, double *b, double *c, int m, int n)
+void matrix_vector_product_omp(double *a, double *b, double *c, int m, int n, int flag)
 {
-    #pragma omp parallel num_threads(10)
+    #pragma omp parallel num_threads(flag)
     {
         int nthreads = omp_get_num_threads();
         int threadid = omp_get_thread_num();
@@ -51,9 +45,9 @@ void run_serial(int n, int m)
     for (int j = 0; j < n; j++)
         b[j] = j;
 
-    double t = wtime();
+    double t = omp_get_wtime();
     matrix_vector_product(a, b, c, m, n);
-    t = wtime() - t;
+    t = omp_get_wtime() - t;
 
     printf("Elapsed time (serial): %.6f sec.\n", t);
     free(a);
@@ -61,7 +55,7 @@ void run_serial(int n, int m)
     free(c);
 }
 
-void run_parallel(int n, int m)
+void run_parallel(int n, int m, int flag)
 {
     double *a, *b, *c;
 
@@ -69,7 +63,7 @@ void run_parallel(int n, int m)
     b = malloc(sizeof(*b) * n);
     c = malloc(sizeof(*c) * m);
 
-    #pragma omp parallel num_threads(10)
+    #pragma omp parallel num_threads(flag)
     {
         int nthreads = omp_get_num_threads();
         int threadid = omp_get_thread_num();
@@ -87,9 +81,9 @@ void run_parallel(int n, int m)
     for (int j = 0; j < n; j++)
         b[j] = j;
 
-    double t = wtime();
-    matrix_vector_product_omp(a, b, c, m, n);
-    t = wtime() - t;
+    double t = omp_get_wtime();
+    matrix_vector_product_omp(a, b, c, m, n, flag);
+    t = omp_get_wtime() - t;
 
     printf("Elapsed time (parallel): %.6f sec.\n", t);
     free(a);
@@ -101,14 +95,15 @@ void run_parallel(int n, int m)
 
 int main(int argc, char **argv) {
 
-    int m = 30000;
-    int n = 30000;
+    int flag = atoi(argv[1]);
+    int m = atoi(argv[2]);
+    int n = m;
 
     printf("Matrix-vector product (c[m] = a[m, n] * b[n]; m = %d, n = %d)\n", m, n);
     printf("Memory used: %" PRIu64 " MiB\n", ((m * n + m + n) * sizeof(double)) >> 20);
 
     run_serial(n, m);
-    run_parallel(n, m);
+    run_parallel(n, m, flag);
 
     return 0;
 }
