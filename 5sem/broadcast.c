@@ -13,21 +13,21 @@ void make_broadcast_blocking(int size, int argc, char **argv) {
 
     if (rank == 0) {
         sbuf = malloc(size);
-        memset(sbuf, 'a', size);
+        memset(sbuf, 'a', size); 
     }
 
     double start_time = MPI_Wtime();
 
     if (rank == 0) {
         for (int dest = 0; dest < commsize; dest++) {
-             if (dest = 0) {
-                memcpy(rbuf, sbuf, size);
-             } else {
+            if (dest == 0) {
+                memcpy(rbuf, sbuf, size); 
+            } else {
                 MPI_Send(sbuf, size, MPI_CHAR, dest, 0, MPI_COMM_WORLD);
-             }
+            }
         }
     } else {
-        MPI_Recv(rbuf, size, MPI_CHAR, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(rbuf, size, MPI_CHAR, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE); 
     }
 
     double end_time = MPI_Wtime();
@@ -38,14 +38,15 @@ void make_broadcast_blocking(int size, int argc, char **argv) {
     }
 
     free(rbuf);
+
 }
 
-int main(int argc, char **argv) {
+int main(int argc, char **argv)
+{
     MPI_Init(&argc, &argv);
     int MSG_SIZE = 1024;
     make_broadcast_blocking(MSG_SIZE, argc, argv);
     make_broadcast_blocking(MSG_SIZE*1024, argc, argv);
     MPI_Finalize();
-
     return 0;
 }

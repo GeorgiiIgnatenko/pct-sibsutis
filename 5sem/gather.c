@@ -4,10 +4,10 @@
 #include <string.h>
 
 int main(int argc, char **argv) {
-    int rank, comsize;
+    int rank, commsize;
     
     int sizes[] = {1024, 1048576};
-    int num_sizes = sizeof(sizes) / sizeof(sizeof[0]);
+    int num_sizes = sizeof(sizes) / sizeof(sizes[0]);
 
     MPI_Init(&argc, &argv);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -29,7 +29,7 @@ int main(int argc, char **argv) {
         double start_time = MPI_Wtime();
 
         if (rank == 0) {
-            for (int i = 1; i < comsize; i++)
+            for (int i = 1; i < commsize; i++)
                 {
                     MPI_Recv(rbuf + i * size, size, MPI_CHAR, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
                 }
