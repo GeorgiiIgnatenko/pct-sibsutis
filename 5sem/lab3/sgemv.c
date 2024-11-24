@@ -6,8 +6,8 @@
 #include <time.h>
 #include <sys/time.h>
 
-const int n = 28000;
-const int m = 28000;
+const int n = 45000;
+const int m = 45000;
 
 double wtime()
 {
@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     double t = wtime();
     int lb, ub;
-    get_chunk(0, m - 1, commsize, rank, &lb, &ub); // Декомпозиция матрицы на горизонтальные полосы
+    get_chunk(0, m - 1, commsize, rank, &lb, &ub);
     int nrows = ub - lb + 1;
     float *a = xmalloc(sizeof(*a) * nrows * n);
     float *b = xmalloc(sizeof(*b) * n);
@@ -116,7 +116,7 @@ int main(int argc, char **argv)
         printf("Memory used: %" PRIu64 " MiB\n", (uint64_t)(((double)m * n + m + n) * sizeof(float)) >> 20);
         double gflop = 2.0 * m * n * 1E-9;
         printf("Elapsed time (%d procs): %.6f sec.\n", commsize, t);
-        printf("Speedup: %lf\n", 26.230857/t);
+        printf("Speedup: %lf\n", 26.340658/t);
         printf("Performance: %.2f GFLOPS\n", gflop / t);
     }
     free(a);
