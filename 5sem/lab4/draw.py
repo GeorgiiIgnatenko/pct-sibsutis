@@ -1,4 +1,4 @@
-mport numpy as np
+import numpy as np
 import matplotlib.pyplot as plt
 
 # Загрузка данных ускорения
@@ -15,5 +15,5 @@ plt.ylabel("Ускорение")
 plt.legend()
 plt.grid()
 plt.title("Ускорение от cpu")
-plt.savefig("speedup_chart.png", dpi=300)
+plt.savefig("speedup_chart_10000.png", dpi=300)
 plt.show()
