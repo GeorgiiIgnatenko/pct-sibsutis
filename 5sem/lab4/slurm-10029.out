@@ -1,0 +1,2 @@
+mpiexec: Forwarding signal 18 to job
+slurmstepd: error: *** JOB 10029 ON oak-cn2 CANCELLED AT 2024-12-10T18:40:44 ***

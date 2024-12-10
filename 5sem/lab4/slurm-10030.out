@@ -1,0 +1,10 @@
+# Heat 2D (mpi): grid: rows 1000, cols 1000, procs 8 (px 4, py 2)
+# P    0 ( 0,  0) on oak-cn2.ipa.csc.sibsutis.ru: grid ny 500 nx 250, total 0.666128, mpi 0.017804 (0.03) = allred 0.013796 (0.77) + halo 0.004007 (0.23)
+# P    2 ( 1,  0) on oak-cn2.ipa.csc.sibsutis.ru: grid ny 500 nx 250, total 0.666464, mpi 0.018122 (0.03) = allred 0.011716 (0.65) + halo 0.006405 (0.35)
+# P    1 ( 0,  1) on oak-cn2.ipa.csc.sibsutis.ru: grid ny 500 nx 250, total 0.664807, mpi 0.017503 (0.03) = allred 0.013439 (0.77) + halo 0.004063 (0.23)
+# P    3 ( 1,  1) on oak-cn2.ipa.csc.sibsutis.ru: grid ny 500 nx 250, total 0.665497, mpi 0.018773 (0.03) = allred 0.012497 (0.67) + halo 0.006276 (0.33)
+# P    6 ( 3,  0) on oak-cn2.ipa.csc.sibsutis.ru: grid ny 500 nx 250, total 0.682936, mpi 0.017051 (0.02) = allred 0.011424 (0.67) + halo 0.005627 (0.33)
+# P    4 ( 2,  0) on oak-cn2.ipa.csc.sibsutis.ru: grid ny 500 nx 250, total 0.683302, mpi 0.013464 (0.02) = allred 0.006542 (0.49) + halo 0.006922 (0.51)
+# P    7 ( 3,  1) on oak-cn2.ipa.csc.sibsutis.ru: grid ny 500 nx 250, total 0.686858, mpi 0.016398 (0.02) = allred 0.011173 (0.68) + halo 0.005224 (0.32)
+# P    5 ( 2,  1) on oak-cn2.ipa.csc.sibsutis.ru: grid ny 500 nx 250, total 0.687208, mpi 0.016453 (0.02) = allred 0.009816 (0.60) + halo 0.006637 (0.40)
+# procs 8 : grid 1000 1000 : niters 242 : total time 0.687208 : mpi time 0.020718 : allred 0.013796 : halo 0.006922 : speedup 766.614330
